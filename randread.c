@@ -16,10 +16,10 @@ int int_arg(char *arg, const char *name) {
 }
 
 
-long convert_scale(long n, long maxn, long maxy) {
+unsigned long convert_scale(unsigned long n, unsigned long maxn, unsigned long maxy) {
     // Compute basic result
-    long prod = maxy * n;
-    long result = prod / maxn;
+    unsigned long prod = maxy * n;
+    unsigned long result = prod / maxn;
 
     // Add remainder for rounding accuracy
     if (prod % maxn > (maxn >> 1)) {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
     // Ramdon seed
     gettimeofday(&tv,(void*)0);
-    srand(tv.tv_sec ^ tv.tv_usec);
+    srandom(tv.tv_sec ^ tv.tv_usec);
 
     // Start time
     gettimeofday(&start_t,(void*)0);
