@@ -11,7 +11,7 @@ if [ "$1x" = "x" ]; then
     echo "  device-path  The path to the block device file, e.g.:"
     echo "    /dev/sda on Linux and Cygwin,"
     echo "    /dev/rdisk0 on Darwin (MacOS X),"
-    echo "    /dev/rdsk/c0t0d0s0, /dev/md/rdsk/d40 on Solaris."
+    echo "    /dev/rdsk/c0t0d0s2, /dev/md/rdsk/d40, /dev/zvol/rdsk/... on Solaris."
     exit 1
 fi
 d=$1
