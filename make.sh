@@ -7,5 +7,6 @@ else
   CC=gcc
 fi
 
+CC_ARGS=-Wall
 
-$CC randread.c -o randread.$OS-$ARCH 
+$CC $CC_ARGS randread.c -o randread.$OS-$ARCH 
