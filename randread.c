@@ -18,10 +18,6 @@ int int_arg(char *arg, const char *name) {
 }
 
 
-//uint64_t rand62() {
-//  return ((uint64_t) random() << 31) | random();
-//}
-
 uint64_t convert_scale(uint64_t n, uint64_t maxn, uint64_t maxy) {
     // Compute basic result
     uint64_t prod = maxy * n;
