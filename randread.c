@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+#define uint64_t unsigned long long
+
 int int_arg(char *arg, const char *name) {
     int result;
     int r1 = sscanf(arg, "%d", &result);
