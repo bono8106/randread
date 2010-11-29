@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 OS=`uname -s`
 ARCH=`uname -p`
-if [ $OS == Darwin ]; then
+if [ "$OS" == "Darwin" ]; then
   CC=clang
 else
   CC=gcc
