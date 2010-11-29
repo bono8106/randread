@@ -18,9 +18,9 @@ int int_arg(char *arg, const char *name) {
 }
 
 
-uint64_t rand48() {
-  return ((uint64_t) random() << (48-31)) ^ random();
-}
+//uint64_t rand62() {
+//  return ((uint64_t) random() << 31) | random();
+//}
 
 uint64_t convert_scale(uint64_t n, uint64_t maxn, uint64_t maxy) {
     // Compute basic result
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     // Do ops
     i = 0;
     while (i++ < ops) {
-        uint64_t blk_n = convert_scale(rand48(), (uint64_t) 1<<47, blockcount);
+        uint64_t blk_n = convert_scale(random(), (uint64_t) 1<<31, blockcount);
         fprintf(stderr, "%lld\n", blk_n);
         if (fseek(dev, blk_n * blocksize, SEEK_SET) != 0) {
             printf("fseek failed.\n");
