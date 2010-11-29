@@ -1,3 +1,5 @@
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -38,7 +40,7 @@ int main(int argc, char *argv[])
     int blocksize, blockcount, ops;
 
     void *block;
-    FILE *dev;
+    int dev;
     struct timeval tv;
     struct timeval start_t;
     struct timeval end_t;
@@ -61,9 +63,9 @@ int main(int argc, char *argv[])
         printf("malloc failed\n");
         return 1;
     }
-    dev = fopen(dev_name, "r");
-    if (dev == NULL) {
-        printf("fopen failed for %s\n", dev_name);
+    dev = open(dev_name, O_RDONLY);
+    if (dev == -1) {
+        printf("open failed for %s\n", dev_name);
         return 1;
     }
 
@@ -79,12 +81,8 @@ int main(int argc, char *argv[])
     while (i++ < ops) {
         uint64_t blk_n = convert_scale(random(), (uint64_t) 1<<31, blockcount);
         fprintf(stderr, "%lld\n", blk_n);
-        if (fseek(dev, blk_n * blocksize, SEEK_SET) != 0) {
-            printf("fseek failed.\n");
-            exit(1);
-        }
-        if (fread(block, blocksize, 1, dev) != 1) {
-            printf("fread failed.\n");
+        if (pread(dev, block, blocksize, blk_n * blocksize) != blocksize) {
+            printf("read failed.\n");
             exit(1);
         }
     }
@@ -96,7 +94,7 @@ int main(int argc, char *argv[])
     printf("%.2f\n", ops / elapsed_s);
 
     // Cleanup
-    fclose(dev);
+    close(dev);
     free(block);
     return 0;
 }
