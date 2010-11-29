@@ -36,6 +36,8 @@ uint64_t convert_scale(uint64_t n, uint64_t maxn, uint64_t maxy) {
 
 int main(int argc, char *argv[])
 {
+    extern int errno;
+
     char *dev_name;
     int blocksize, blockcount, ops;
 
@@ -83,7 +85,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "%lld\n", blk_n);
         ssize_t rval;
         if ((rval = pread(dev, block, blocksize, blk_n * blocksize)) != blocksize) {
-            printf("read failed: %d, %d.\n", rval, errno);
+            printf("read failed: %ld, %d.\n", rval, errno);
             exit(1);
         }
     }
