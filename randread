@@ -61,7 +61,7 @@ blocks=$[$bytes / $bs]
 READER=`dirname $0`/randread.`uname -s`-`uname -p`
 
 # Run I/O test
-echo "Running random read test on $d ($[$bytes/1024/1024/1024]GB) with block size $bs bytes."
+echo "Running random read test on $d ($[$bytes/1024/1024/1024]GB), $blocks blocks of size $bs bytes."
 while [ 1 ]; do
     iops=`$READER $d $bs $blocks $refresh`
     status=$?
