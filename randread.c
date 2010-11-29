@@ -1,10 +1,16 @@
 #include <fcntl.h>
+#include <errno.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define uint64_t unsigned long long
+#ifdef __amd64
+#  define uint64_t unsigned long
+#else
+#  define uint64_t unsigned long long
+#endif
 
 int int_arg(char *arg, const char *name) {
     int result;
@@ -33,11 +39,8 @@ uint64_t convert_scale(uint64_t n, uint64_t maxn, uint64_t maxy) {
     return result;
 }
 
-
 int main(int argc, char *argv[])
 {
-    extern int errno;
-
     char *dev_name;
     int blocksize, blockcount, ops;
 
@@ -65,7 +68,7 @@ int main(int argc, char *argv[])
         printf("malloc failed\n");
         return 1;
     }
-    dev = open(dev_name, O_RDONLY);
+    dev = open(dev_name, O_RDONLY | O_DIRECT);
     if (dev == -1) {
         printf("open failed for %s\n", dev_name);
         return 1;
@@ -85,7 +88,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "%lld\n", blk_n);
         ssize_t rval;
         if ((rval = pread(dev, block, blocksize, blk_n * blocksize)) != blocksize) {
-            printf("read failed: %ld, %d.\n", rval, errno);
+            printf("read failed: %ld bytes read at offset %lld (block %lld), errno %d: %s.\n", (long) rval, blk_n * blocksize, blk_n, errno, strerror(errno));
             exit(1);
         }
     }
