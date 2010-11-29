@@ -7,6 +7,6 @@ else
   CC=gcc
 fi
 
-CC_ARGS=-Wall
+CC_ARGS="-Wall -m64"
 
 $CC $CC_ARGS randread.c -o randread.$OS-$ARCH 
