@@ -16,6 +16,10 @@ int int_arg(char *arg, const char *name) {
 }
 
 
+unsigned long rand48() {
+  return ((unsigned long) random() << (48-31)) ^ random();
+}
+
 unsigned long convert_scale(unsigned long n, unsigned long maxn, unsigned long maxy) {
     // Compute basic result
     unsigned long prod = maxy * n;
@@ -31,7 +35,7 @@ unsigned long convert_scale(unsigned long n, unsigned long maxn, unsigned long m
 
 
 int main(int argc, char *argv[])
-{printf("%d\n", RAND_MAX); exit(0);
+{
     char *dev_name;
     int blocksize, blockcount, ops;
 
@@ -75,7 +79,7 @@ int main(int argc, char *argv[])
     // Do ops
     i = 0;
     while (i++ < ops) {
-        long blk_n = convert_scale(rand(), RAND_MAX+1, blockcount);//(long) (blockcount * (rand() / (RAND_MAX + 1.0)));
+        long blk_n = convert_scale(rand48(), 1L<<47, blockcount);
         fprintf(stderr, "%ld\n", blk_n);
         if (fseek(dev, blk_n * blocksize, SEEK_SET) != 0) {
             printf("fseek failed.\n");
