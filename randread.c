@@ -6,11 +6,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#ifdef __amd64
-#  define uint64_t unsigned long
-#else
-#  define uint64_t unsigned long long
-#endif
+#define uint64_t unsigned long long
 
 int int_arg(char *arg, const char *name) {
     int result;
@@ -68,7 +64,7 @@ int main(int argc, char *argv[])
         printf("malloc failed\n");
         return 1;
     }
-    dev = open(dev_name, O_RDONLY | O_DIRECT);
+    dev = open(dev_name, O_RDONLY);
     if (dev == -1) {
         printf("open failed for %s\n", dev_name);
         return 1;
